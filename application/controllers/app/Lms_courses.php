@@ -305,7 +305,35 @@ class Lms_courses extends My_App
         if (!empty($this->input->post('id'))) {
 
             if ($this->M_LMS_Courses->process_lesson_update() == TRUE) {
-
+                $pertanyaan = array();
+                $jawaban = array();
+                $postx = $this->input->post();
+                
+                if($this->input->post('type') == 'PG'){
+                    foreach($postx['pertanyaan'] AS $key => $val){
+                        $pertanyaan[] = array(
+                            "pertanyaan" => $postx['pertanyaan'][$key],
+                            "section_id" => $postx['id_section'],
+                            "idpertanyaan" => $postx['idpertanyaan'][$key]
+                        );
+    
+                        $jawaban[] = array(
+                            "jawabana" => $postx['jawabana'][$key],
+                            "jawabanb" => $postx['jawabanb'][$key],
+                            "jawabanc" => $postx['jawabanc'][$key],
+                            "jawaband" => $postx['jawaband'][$key],
+                            "is_true" => $postx['is_true'][$key],
+                            "id_pertanyaan" => $postx['idpertanyaan'][$key]
+                        );
+                    }
+                    
+                    // echo "<pre>";
+                    // var_dump($jawaban);
+                    // echo "</pre>";
+    
+                    $this->M_LMS_Courses->pertanyaan_insert($pertanyaan);
+                    $this->M_LMS_Courses->jawaban_insert($jawaban);    
+                }
                 $this->session->set_flashdata([
                     'message' => true,
                     'message_type' => 'alert-success',
@@ -351,7 +379,7 @@ class Lms_courses extends My_App
             }
         }
 
-        // redirect(base_url('app/lms_courses/update/' . $this->input->post('id_courses') . "?tab=material"));
+        redirect(base_url('app/lms_courses/update/' . $this->input->post('id_courses') . "?tab=material"));
     }
 
     public function process_lesson_delete($id)

@@ -160,6 +160,7 @@
             
             
         }else{
+            $('.jumlahinput').remove();
             $('.listt').remove();
         }
     });
