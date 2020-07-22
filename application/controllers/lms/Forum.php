@@ -60,7 +60,55 @@ class Forum extends My_User{
 			$this->load->view('lms/default-app/forum/add', $data);
 		}
 	}
+	
+	public function checkingpg()
+	{
+		$id_lesson = $this->input->post('id_lesson');
+		$section = $this->input->post('section');
+		$get_pertanyaan = $this->M_Lesson->get_pertanyaan($this->input->post('section'));
+		$get_jawaban = $this->M_Lesson->get_jawaban();
+		$postx = $this->input->post();
+		$data = array();
+		$wow = array();
+		foreach ($postx['kk'] as $key => $value) {
+			$jawaban =  $this->input->post('jawaban'.$key);
+			$data = [
+				'id' => $value,
+				'jawaban' => $jawaban,
+			];
+			array_push($wow, 
+				$data
+			);
+		}
 
+		$benar = 1;		
+		foreach ($get_pertanyaan as $key => $value) {
+			foreach ($get_jawaban as $kk => $vv) {
+				if($value['idpertanyaan'] == $vv['id_pertanyaan']){
+					foreach ($wow as $kkk => $vvv) {
+						if($vvv['id'] == $value['idpertanyaan'] && $vvv['jawaban'] == $vv['is_true']){
+							$hasil =  $benar++;
+						}else{
+							$hasil = 0;
+						}
+					}
+					
+				}
+			}
+		}
+		$count = count($get_pertanyaan);
+		$result = $hasil / $count *100;
+		if($result > 80){
+			$this->M_Courses->process_pg();
+		}else{
+			$this->session->set_flashdata('message', 'Anda Belum Lulus');
+			redirect('courses-lesson/kelas-online-figma-ui-design/'.$section.'/'.$id_lesson);
+		}
+		// echo "<pre>";
+		// var_dump($hasil);
+		// echo "</pre>";
+		
+	}
 	public function detail($id, $idless)
 	{
 		$id_user = $this->session->userdata('id_user');

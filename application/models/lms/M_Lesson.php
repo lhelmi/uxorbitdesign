@@ -18,6 +18,17 @@ class M_Lesson extends CI_Model
 		return $this->db->get('tb_lesson_upload')->row();
 	}
 
+	public function get_pertanyaan($id)
+	{	
+		$this->db->where('tb_pertanyaan.section_id',$id);
+		return $this->db->get('tb_pertanyaan')->result_array();
+	}
+
+	public function get_jawaban()
+	{	
+		return $this->db->get('tb_jawaban')->result_array();
+	}
+
 	public function update_description($id, $data)
 	{	
 		$this->db->where('id', $id);

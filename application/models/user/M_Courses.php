@@ -294,6 +294,91 @@ class M_Courses extends CI_Model
 
 	}
 
+	public function process_pg(){
+
+		$id_courses = $this->input->post('id_courses');
+		$id_lesson = $this->input->post('id_lesson');
+		$id_user = $this->session->userdata('id_user');
+
+		$post_data = [
+		'id_user' => $id_user,
+		'id_courses' => $id_courses,
+		];
+
+		/** check if user have lesson data */
+		$user_lesson = $this->_Process_MYSQL->get_data($this->table_lms_user_lesson,$post_data);
+
+
+		/**
+		 * if not exist create first
+		 */
+		if ($user_lesson->num_rows() < 1) {
+
+			$data[] = [
+			'id_lesson' => $id_lesson,
+			'status' => true,
+			];
+
+			$post_data['data'] = json_encode($data);
+
+			if ($this->_Process_MYSQL->insert_data($this->table_lms_user_lesson, $post_data)) {
+				echo 'set_true';
+			}
+		}else{
+
+			$user_lesson = json_decode($user_lesson->row()->data,TRUE);		
+
+			$previous_data = false;
+			$status = false;
+			$lesson_data_temp = [];
+			foreach ($user_lesson as $lesson_data) {
+				$lesson_data_temp[] = $lesson_data['id_lesson'];
+
+				if ($lesson_data['id_lesson'] == $id_lesson) {	
+
+					if ($lesson_data['status'] == false) {
+						$status = true;
+					}
+				}else {					
+					$previous_data[] = [
+					'id_lesson' => $lesson_data['id_lesson'],
+					'status' => $lesson_data['status'],
+					];
+				}
+			}
+
+			/** if id_lesson not in user_lesson set status true **/
+			if (!in_array($id_lesson, $lesson_data_temp)) {
+				$status = true;
+			}
+
+			$data[] = [
+			'id_lesson' => $id_lesson,
+			'status' => $status,
+			];
+
+			if (empty($previous_data)) {
+				$post_data['data'] = json_encode($data);
+			}else {				
+				$post_data['data'] = json_encode(array_merge($previous_data,$data));
+			}
+
+			if ($this->_Process_MYSQL->update_data($this->table_lms_user_lesson,$post_data,[
+				'id_user' => $id_user,
+				'id_courses' => $id_courses,
+				])) {
+				if ($status) {
+					$data['status'] = true;
+					echo json_encode($data);
+				}else{
+					$data['status'] = false;
+					echo json_encode($data);
+				}
+			}
+		}
+
+	}
+
 	public function process_lessons(){
 
 		$id_courses = $this->input->post('id_courses');

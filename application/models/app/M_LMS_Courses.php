@@ -135,6 +135,45 @@ class M_LMS_Courses extends CI_Model
         return $all_data;
     }
 
+    public function pertanyaan_insert($data){
+        $this->db->insert_batch('tb_pertanyaan', $data);
+    }
+
+    public function jawaban_insert($data){
+        $this->db->insert_batch('tb_jawaban', $data);
+    }
+
+    public function pertanyaanhapus($id){
+        $this->db->where('idpertanyaan', $id);
+        $this->db->delete('tb_pertanyaan');
+    }
+
+    public function pertanyaanubah($id, $data){
+        $this->db->where('idpertanyaan', $id);
+        $this->db->update('tb_pertanyaan', $data);
+    }
+
+    public function jawabanubah($id, $data){
+        $this->db->where('id_pertanyaan', $id);
+        $this->db->update('tb_jawaban', $data);
+    }
+
+    public function jawabanhapus($id){
+        $this->db->where('id_pertanyaan', $id);
+        $this->db->delete('tb_jawaban');
+    }
+    
+    public function get_pertanyaan($id)
+	{	
+		$this->db->where('tb_pertanyaan.section_id',$id);
+		return $this->db->get('tb_pertanyaan')->result_array();
+	}
+
+	public function get_jawaban()
+	{	
+		return $this->db->get('tb_jawaban')->result_array();
+	}
+
     public function create_data_post()
     {
         

@@ -252,10 +252,44 @@ class Lms_courses extends My_App
         $this->load->view($this->form_lesson, $data);
     }
 
+    public function pertanyaanedit()
+	{   
+        $id_pertanyaan = $this->input->post('id');
+        $pertanyaan = [
+            'pertanyaan' => $this->input->post('pertanyaan'),
+        ];
+        $jawaban = [
+            'is_true' => $this->input->post('is_true'),
+            'jawabana' => $this->input->post('jawabana'),
+            'jawabanb' => $this->input->post('jawabanb'),
+            'jawabanc' => $this->input->post('jawabanc'),
+            'jawaband' => $this->input->post('jawaband'),
+        ];
+        $data = [
+            'pertanyaanubah' => $this->M_LMS_Courses->pertanyaanubah($_POST['id'], $pertanyaan),
+            'jawabanubah' => $this->M_LMS_Courses->jawabanubah($_POST['id'], $jawaban),
+            'success' => true,
+        ];
+        
+		echo json_encode($data);
+	}
+
+    public function pertanyaanhapus()
+	{   
+        $data = [
+            'pertanyaanhapus' => $this->M_LMS_Courses->pertanyaanhapus($_POST['id']),
+            'jawabanhapus' => $this->M_LMS_Courses->jawabanhapus($_POST['id']),
+        ];
+        
+		echo json_encode($data);
+	}
+
     public function update_lesson($id_section, $id_lesson)
     {
 
         $data = array(
+            'get_pertanyaan' => $this->M_LMS_Courses->get_pertanyaan($id_section),
+            'get_jawaban' => $this->M_LMS_Courses->get_jawaban(),
             'title' => 'Perbaharui Lesson',
             'ckeditor' => true,
             'data' => $this->M_LMS_Courses->required_lesson($id_section),
@@ -281,6 +315,34 @@ class Lms_courses extends My_App
         } else {
 
             if ($this->M_LMS_Courses->process_lesson_create() == TRUE) {
+                $pertanyaan = array();
+                $jawaban = array();
+                $postx = $this->input->post();
+                
+                
+                foreach($postx['pertanyaan'] AS $key => $val){
+                    $pertanyaan[] = array(
+                        "pertanyaan" => $postx['pertanyaan'][$key],
+                        "section_id" => $postx['id_section'],
+                        "idpertanyaan" => $postx['idpertanyaan'][$key]
+                    );
+
+                    $jawaban[] = array(
+                        "jawabana" => $postx['jawabana'][$key],
+                        "jawabanb" => $postx['jawabanb'][$key],
+                        "jawabanc" => $postx['jawabanc'][$key],
+                        "jawaband" => $postx['jawaband'][$key],
+                        "is_true" => $postx['is_true'][$key],
+                        "id_pertanyaan" => $postx['idpertanyaan'][$key]
+                    );
+                }
+                
+                // echo "<pre>";
+                // var_dump($jawaban);
+                // echo "</pre>";
+
+                $this->M_LMS_Courses->pertanyaan_insert($pertanyaan);
+                $this->M_LMS_Courses->jawaban_insert($jawaban);
                 $this->session->set_flashdata([
                     'message' => true,
                     'message_type' => 'alert-success',
@@ -289,7 +351,7 @@ class Lms_courses extends My_App
             }
         }
 
-        redirect(base_url('app/lms_courses/update/' . $this->input->post('id_courses') . "?tab=material"));
+        // redirect(base_url('app/lms_courses/update/' . $this->input->post('id_courses') . "?tab=material"));
     }
 
     public function process_lesson_delete($id)

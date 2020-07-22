@@ -77,7 +77,60 @@
 					</form>
 
 				<?php } ?>
+				<?php if($is_lulus == false){ ?>
+				<?php $no=1; if ($courses['lesson_detail']['type'] == 'PG') { ?>
+					<div class="flash-data" data-flash = "<?= $this->session->flashdata('message') ?>"></div>
+					<form action="<?= site_url('lms/Forum/checkingpg') ?>" method="POST" enctype="multipart/form-data" id="forumpg">
+					<input type="hidden" name="section" value="<?= $section ?>">
+					<input type="hidden" name="id_lesson" id="id_lesson" value="<?= $courses['lesson_detail']['id'] ?>">
+					<input type="hidden" name="id_courses" id="id_courses" value="<?= $courses['lesson_detail']['id_courses'] ?>">					
+					<?php foreach ($get_pertanyaan as $key => $value) {?>
+						<div>
+							<label for=""><?= $no++. '. '; ?><?= $value['pertanyaan'] ?></label>
+							<?php foreach ($get_jawaban as $kk => $vv) {?>
+								<?php if($value['idpertanyaan'] == $vv['id_pertanyaan']){ ?>
+									<input type="hidden" value="<?= $vv['id_pertanyaan'] ?>" name="kk[]">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="a">
+										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
+										a. <?= $vv['jawabana'] ?>
+										</label>
+									</div>
 
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="b">
+										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
+										b. <?= $vv['jawabanb'] ?>
+										</label>
+									</div>
+
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="c">
+										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
+										c. <?= $vv['jawabanc'] ?>
+										</label>
+									</div>
+
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="d">
+										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
+										d. <?= $vv['jawaband'] ?>
+										</label>
+									</div>
+								<?php } ?>	
+							<?php } ?>
+						</div>
+					<?php } ?>
+						<div class="form-group mt-3">
+							<button type="submit" name="kirimpg" id="kirimpg" class="btn btn-success">
+								<i class="fa fa-send"></i> Kirim
+							</button>
+						</div>
+					</form>
+				<?php } ?>
+				<?php }else{ ?>
+					<h2>Anda sudah lulus</h2>
+				<?php } ?>
 			</div>
 		</div>
 
@@ -146,7 +199,7 @@
 									</a>
 									<?php if (!empty($this->session->userdata('user'))) : ?>
 										<?php if ($lesson['user_lesson']) : ?>
-											<?php if ($lesson['type'] !== 'Quiz') { ?>
+											<?php if ($lesson['type'] !== 'Quiz' and $lesson['type'] !== 'PG') { ?>
 												<button data-id-courses='<?php echo $courses['id'] ?>' data-id-lesson='<?php echo $lesson['id'] ?>' class="c-btn c-btn--primary c-btn--small btn-process-lesson u-ml-auto" data-action="<?php echo base_url('user/courses/process_lesson/') ?>" style='overflow: unset;position: absolute;right: 10px;padding: 2px 4px;'>
 													<i class="fa fa-check u-color-success u-m-zero"></i>
 												</button>
@@ -157,7 +210,7 @@
 											<?php } ?>
 										<?php endif ?>
 										<?php if (empty($lesson['user_lesson'])) : ?>
-											<?php if ($lesson['type'] !== 'Quiz') { ?>
+											<?php if ($lesson['type'] !== 'Quiz'  and $lesson['type'] !== 'PG') { ?>
 												<button data-id-courses='<?php echo $courses['id'] ?>' data-id-lesson='<?php echo $lesson['id'] ?>' class="c-btn c-btn--primary c-btn--small btn-process-lesson u-ml-auto" data-action="<?php echo base_url('user/courses/process_lesson/') ?>" style='overflow: unset;position: absolute;right: 10px;padding: 2px 4px;'>
 													<i class="fa fa-check u-color-white u-m-zero"></i>
 												</button>
@@ -213,3 +266,15 @@
 
 <?php $this->load->view('lms/default-app/lesson/part/review'); ?>
 <?php $this->load->view('lms/default-app/_layouts/footer'); ?>
+<script>
+	 const flashdata = $('.flash-data').data('flash');
+    
+    if (flashdata) {
+		Swal.fire({
+			icon: 'warning',
+			title: 'Anda belum berhasil lulus kelas ini',
+			showConfirmButton: false,
+			timer: 2500
+		})
+    }
+</script>
