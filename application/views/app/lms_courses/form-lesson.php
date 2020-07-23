@@ -50,13 +50,15 @@
                     <div class="col-12 col-lg-12 content">
                         <div id="isicontent">
                             <div class="c-field">
-                                <textarea required class="editor" name="content">
+                                <textarea required class="editor" name="content" id="textcontent">
                                     <?php echo (!empty($lesson['content']) ? $lesson['content'] : '') ?>
                                 </textarea>
                             </div>
                         </div>
                         
                     </div>
+                    <div class="col-12 col-lg-12" id="jumlah"></div>
+                    <div class='col-12 col-lg-12 quiz'></div>
                     <?php if(!empty($lesson['type']) and $lesson['type'] == 'PG'){ ?>
                         <?php $no = 1; foreach ($get_pertanyaan as $key => $value) { ?>
                             <?php foreach ($get_jawaban as $kk => $vv) { ?>
@@ -105,14 +107,6 @@
                             <?php } ?>
                         <?php } ?>
                     <?php } ?>
-                    <div class="col-12 col-lg-12" id="jumlah">
-                        
-                    </div>
-                    <div class='col-12 col-lg-12 quiz'>
-                    
-                    </div>
-                    
-
                 </div>
             </div>
         </div>
@@ -124,6 +118,43 @@
 <?php $this->load->view('app/_layouts/modal_filemanager'); ?>
 <?php $this->load->view('app/_layouts/footer'); ?>
 <script>
+$(document).ready(function() {
+    var x = $('#type').val();
+    if(x == 'PG' ){
+        $('#isicontent').hide();
+        $('.jumlahinput').remove();
+        $('#jumlah').append("<div class='c-field u-ph-medium u-pv-small u-mb-small jumlahinput'><div class='row mb-3'><div class='col-10'><input autofocus='' required class='form-control mb-3' id='quiz1' name='quiz1' type='number'></div><div class='col-2'><button type='button' id='jumlahquiz' class='btn btn-primary'><i class='fa fa-check'></i> Ok</button></div></div></div>");
+        $('#jumlahquiz').on('click', function(event){
+                var jumlahquiz = $('#quiz1').val();
+                
+                if(jumlahquiz > 10 || jumlahquiz < 5){
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jumlah soal minimal 5 dan maksimal 10 soal',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }else{
+                    for (let index = 0; index < jumlahquiz; index++) {
+                        $('.quiz').append("<div class='c-field u-ph-medium u-pv-small u-mb-small listt'><div>Pertanyaan Baru "+ nomer++ + "<hr></div><div class='col-10'><input autofocus='' required class='form-control mb-3' name='pertanyaan[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban A' required class='form-control mb-3' name='jawabana[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban B' required class='form-control mb-3' name='jawabanb[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban C' required class='form-control mb-3' name='jawabanc[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban D' required class='form-control mb-3' name='jawaband[]' type='text'></div><div class='col-10'><select name='is_true[]' required class='form-control mb-3' id='is_true[]'><option value=''>Kunci Jawaban</option><option value='a'>A</option><option value='b'>B</option><option value='c'>C</option><option value='d'>D</option></select></div></div>");
+                        $('.quiz').append("<input type='hidden' name='idpertanyaan[]' value= '"+ courses_id + section_id + index +"' >");
+                    }   
+                }
+            });
+    }
+});
+    $('#jumlah').keypress(
+    function(event){
+        if (event.which == '13') {
+        event.preventDefault();
+        }
+    });
+    $('.quiz').keypress(
+    function(event){
+        if (event.which == '13') {
+        event.preventDefault();
+        }
+    });
     var courses_id = <?= $data['courses_id']; ?>;
     var section_id = <?= $data['section_id']; ?>;
     $('#type').on('change', function() {
@@ -131,35 +162,47 @@
         var x = $('#type').val();
         var nomer = 1;
         if(x == 'PG' ){
+            $('#isicontent').hide();
             // $('#isicontent').remove();
             $('.jumlahinput').remove();
             $('#jumlah').append("<div class='c-field u-ph-medium u-pv-small u-mb-small jumlahinput'><div class='row mb-3'><div class='col-10'><input autofocus='' required class='form-control mb-3' id='quiz1' name='quiz1' type='number'></div><div class='col-2'><button type='button' id='jumlahquiz' class='btn btn-primary'><i class='fa fa-check'></i> Ok</button></div></div></div>");
             $('#jumlahquiz').on('click', function(event){
                 var jumlahquiz = $('#quiz1').val();
-                for (let index = 0; index < jumlahquiz; index++) {
-                    $('.quiz').append("<div class='c-field u-ph-medium u-pv-small u-mb-small listt'><div>Pertanyaan Baru "+ nomer++ + "<hr></div><div class='col-10'><input autofocus='' required class='form-control mb-3' name='pertanyaan[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban A' required class='form-control mb-3' name='jawabana[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban B' required class='form-control mb-3' name='jawabanb[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban C' required class='form-control mb-3' name='jawabanc[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban D' required class='form-control mb-3' name='jawaband[]' type='text'></div><div class='col-10'><select name='is_true[]' required class='form-control mb-3' id='is_true[]'><option value=''>Kunci Jawaban</option><option value='a'>A</option><option value='b'>B</option><option value='c'>C</option><option value='d'>D</option></select></div></div>");
-                    $('.quiz').append("<input type='hidden' name='idpertanyaan[]' value= '"+ courses_id + section_id + index +"' >");
-                    
-                    
-                    // $('#is_truea'+index).change(function(){
-                    //     if (this.value == '0' || this.value == '') {
-                    //         $(this).val('1');
-                    //         $('#is_trueb'+index).val('0');
-                    //         $('#is_trueb'+index).prop('checked', false);
-                    //     }
-                    // });
-                    // $('#is_trueb'+index).change(function(){
-                    //     if (this.value == '0' || this.value == '') {
-                    //         $(this).val('1');
-                    //         $('#is_truea'+index).val('0');
-                    //         $('#is_truea'+index).prop('checked', false);
-                    //     }
-                    // });
+                
+                if(jumlahquiz > 10 || jumlahquiz < 5){
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jumlah soal minimal 5 dan maksimal 10 soal',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }else{
+                    for (let index = 0; index < jumlahquiz; index++) {
+                        $('.quiz').append("<div class='c-field u-ph-medium u-pv-small u-mb-small listt'><div>Pertanyaan Baru "+ nomer++ + "<hr></div><div class='col-10'><input autofocus='' required class='form-control mb-3' name='pertanyaan[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban A' required class='form-control mb-3' name='jawabana[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban B' required class='form-control mb-3' name='jawabanb[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban C' required class='form-control mb-3' name='jawabanc[]' type='text'></div><div class='col-10'><input autofocus='' placeholder='Jawaban D' required class='form-control mb-3' name='jawaband[]' type='text'></div><div class='col-10'><select name='is_true[]' required class='form-control mb-3' id='is_true[]'><option value=''>Kunci Jawaban</option><option value='a'>A</option><option value='b'>B</option><option value='c'>C</option><option value='d'>D</option></select></div></div>");
+                        $('.quiz').append("<input type='hidden' name='idpertanyaan[]' value= '"+ courses_id + section_id + index +"' >");
+                        
+                        
+                        // $('#is_truea'+index).change(function(){
+                        //     if (this.value == '0' || this.value == '') {
+                        //         $(this).val('1');
+                        //         $('#is_trueb'+index).val('0');
+                        //         $('#is_trueb'+index).prop('checked', false);
+                        //     }
+                        // });
+                        // $('#is_trueb'+index).change(function(){
+                        //     if (this.value == '0' || this.value == '') {
+                        //         $(this).val('1');
+                        //         $('#is_truea'+index).val('0');
+                        //         $('#is_truea'+index).prop('checked', false);
+                        //     }
+                        // });
+                    }   
                 }
             });
             
             
         }else{
+            $('#isicontent').show();
             $('.jumlahinput').remove();
             $('.listt').remove();
         }

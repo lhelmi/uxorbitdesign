@@ -91,7 +91,33 @@
                         <input required="" name="headline" class="c-input" type="text" value="<?php echo (!empty($user['headline'])) ? (!empty(set_value('headline')) ? set_value('headline') : $user['headline'] ) : set_value('headline') ?>"/>
                         <?php echo form_error('headline', '<small class="c-field__message u-color-danger"><i class="fa fa-times-circle"></i>', '</small>'); ?> 
                     </div>
+                    <?php if ($this->session->userdata('app_grade') != 'Instructor'): ?>
+                        <?php if (empty($user) OR !empty($user) AND $user['grade'] != 'App'): ?>
 
+                            <div class="c-field u-mb-small">
+                                <label class="c-field__label">grade : </label>
+                                <select required="" name="grade" class="c-select select2" data-placeholder='select'>
+                                    <option value=""></option>
+                                    <option <?php echo (!empty($user['grade']) AND $user['grade'] == 'User') ? 'selected' : ''; ?> value="User">User</option>
+                                    <option <?php echo (!empty($user['grade']) AND $user['grade'] == 'Instructor') ? 'selected' : ''; ?> value="Instructor">Instructor</option>
+                                </select>
+                            </div>
+
+                            <div class="c-toggle u-mb-small">
+                                <div class="c-toggle__btn <?php echo (!empty($user['status'])) ? ($user['status'] == 'Active') ? 'is-active' : '' : 'is-active'?>">
+                                    <label class="c-toggle__label" for="Active">
+                                        <input value="Active" class="c-toggle__input" id="Active" name="status" type="radio" <?php echo (!empty($user['status'])) ? ($user['status'] == 'Active') ? 'checked' : '' : 'checked'?>>Active
+                                    </label>
+                                </div>
+
+                                <div class="c-toggle__btn <?php echo (!empty($user['status'])) ? ($user['status'] == 'Blocked') ? 'is-active' : '' : ''?>">
+                                    <label class="c-toggle__label" for="Blocked">
+                                        <input value="Blocked" class="c-toggle__input" id="Blocked" name="status" type="radio" <?php echo (!empty($user['status'])) ? ($user['status'] == 'Blocked') ? 'checked' : '' : '' ?>>Blocked
+                                    </label>
+                                </div>
+                            </div>
+                        <?php endif ?>
+                    <?php endif ?>
                     
 
                 </div>

@@ -29,6 +29,28 @@ class M_Lesson extends CI_Model
 		return $this->db->get('tb_jawaban')->result_array();
 	}
 
+	public function get_jawaban_user()
+	{	
+		$this->db->where('id_user', $this->session->userdata('id_user'));
+		return $this->db->get('tb_jawaban_user')->result_array();
+	}
+
+	public function insert_jawaban_user($data)
+	{	
+		$this->db->insert_batch('tb_jawaban_user', $data);
+	}
+
+	public function update_jawaban_user($data)
+	{	
+		$this->db->update_batch('tb_jawaban_user', $data, 'id_pertanyaan');
+	}
+
+	public function get_jawaban_user_by_id($data)
+	{	
+		$this->db->where_in('id_pertanyaan', $data);
+		return $this->db->get('tb_jawaban_user')->result_array();
+	}
+
 	public function update_description($id, $data)
 	{	
 		$this->db->where('id', $id);

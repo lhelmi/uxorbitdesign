@@ -196,9 +196,10 @@ class M_LMS_Courses extends CI_Model
                     'description' => htmlentities($this->input->post('description')),
                     'faq' => htmlentities($this->input->post('faq')),
                     'status' => 'Draft',
+                    'level' => $this->input->post('level'),
                 ];
                 if($this->session->userdata('app_grade') == 'App' ){
-                    $post_data['is_new'] ='Verifikasi';
+                    $post_data['is_new'] = 'Terverifikasi';
                 }
 
                 /**
@@ -304,6 +305,7 @@ class M_LMS_Courses extends CI_Model
                         'faq' => htmlentities($this->input->post('faq')),
                         'is_new' => $this->input->post('is_new'),
                         'image' => $new_name,
+                        'level' => $this->input->post('level'),
                     ];
                     if($this->input->post('is_new') == "Belum Verifikasi"){
                         $post_data['status'] = 'Draft';
@@ -320,6 +322,7 @@ class M_LMS_Courses extends CI_Model
                     'description' => htmlentities($this->input->post('description')),
                     'faq' => htmlentities($this->input->post('faq')),
                     'is_new' => $this->input->post('is_new'),
+                    'level' => $this->input->post('level'),
                 ];
                 if($this->input->post('is_new') == "Belum Verifikasi"){
                     $post_data['status'] = 'Draft';
@@ -350,6 +353,7 @@ class M_LMS_Courses extends CI_Model
                         'faq' => htmlentities($this->input->post('faq')),
                         'status' => $this->input->post('status'),
                         'image' => $new_name,
+                        'level' => $this->input->post('level'),
                     ];
                 }
             }else{
@@ -361,6 +365,7 @@ class M_LMS_Courses extends CI_Model
                     'description' => htmlentities($this->input->post('description')),
                     'faq' => htmlentities($this->input->post('faq')),
                     'status' => $this->input->post('status'),
+                    'level' => $this->input->post('level'),
                 ];
             }
         }
@@ -595,6 +600,7 @@ class M_LMS_Courses extends CI_Model
             'title' => $this->input->post('title'),
             'type' => $this->input->post('type'),
             'content' => $this->input->post('content'),
+            // 'level' => $this->input->post('level'),
         ];
     }
 

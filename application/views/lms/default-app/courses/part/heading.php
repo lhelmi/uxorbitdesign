@@ -50,6 +50,10 @@
                                 <a class="sub-title text-uppercase font-color-biru" href="<?php echo $courses['sub_category']['url'] ?>" title="<?php echo $courses['sub_category']['name'] ?>"><?php echo $courses['sub_category']['name'] ?></a>
                             </div>
                             <div class="info-kelas col-6 col-lg-3 text-left">
+                                <p class="header-title font-color-white">Level</p>
+                                <a class="sub-title text-uppercase font-color-biru" href="#"><?php echo $get_level['level'] ?></a>
+                            </div>
+                            <div class="info-kelas col-6 col-lg-3 text-left">
                                 <p class="header-title font-color-white">SERTIFIKAT</p>
                                 <i class="material-icons no">
                                     <?php if(!empty($courses['price'])){ ?>

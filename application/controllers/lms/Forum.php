@@ -73,12 +73,42 @@ class Forum extends My_User{
 		foreach ($postx['kk'] as $key => $value) {
 			$jawaban =  $this->input->post('jawaban'.$key);
 			$data = [
-				'id' => $value,
+				'id_pertanyaan' => $value,
 				'jawaban' => $jawaban,
+				'id_user' => $this->session->userdata('id_user'),
 			];
 			array_push($wow, 
 				$data
 			);
+		}
+
+		$check = array();
+		foreach ($wow as $key => $value) {
+            array_push($check, $wow[$key]['id_pertanyaan']);
+		}
+		if(!empty($check)){
+			$hasilcheck = $this->M_Lesson->get_jawaban_user_by_id($check);
+			$checktoarray = array();
+			$ubahjawaban = array();
+			foreach($check AS $key => $val){
+				$checktoarray[] = array(
+					"id_pertanyaan" => $val,
+				);
+			}
+			foreach ($wow as $kk => $vv) {
+				foreach ($checktoarray as $kkk => $vvv) {
+					if($vv['id_pertanyaan'] == $vvv['id_pertanyaan'])	{
+						$ubahjawaban[] = array(
+							"id_pertanyaan" => $vvv['id_pertanyaan'],
+							'jawaban' => $vv['jawaban']
+						);
+					}
+				}
+				
+			}
+			$this->M_Lesson->update_jawaban_user($ubahjawaban);
+        }else{
+			$this->M_Lesson->insert_jawaban_user($wow);	
 		}
 
 		$benar = 1;		
@@ -86,7 +116,7 @@ class Forum extends My_User{
 			foreach ($get_jawaban as $kk => $vv) {
 				if($value['idpertanyaan'] == $vv['id_pertanyaan']){
 					foreach ($wow as $kkk => $vvv) {
-						if($vvv['id'] == $value['idpertanyaan'] && $vvv['jawaban'] == $vv['is_true']){
+						if($vvv['id_pertanyaan'] == $value['idpertanyaan'] && $vvv['jawaban'] == $vv['is_true']){
 							$hasil =  $benar++;
 						}else{
 							$hasil = 0;
@@ -96,6 +126,7 @@ class Forum extends My_User{
 				}
 			}
 		}
+		// $this->M_Lesson->insert_jawaban_user($wow);
 		$count = count($get_pertanyaan);
 		$result = $hasil / $count *100;
 		if($result > 80){
@@ -105,7 +136,7 @@ class Forum extends My_User{
 			redirect('courses-lesson/kelas-online-figma-ui-design/'.$section.'/'.$id_lesson);
 		}
 		// echo "<pre>";
-		// var_dump($hasil);
+		// var_dump($ubahjawaban);
 		// echo "</pre>";
 		
 	}

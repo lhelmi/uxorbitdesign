@@ -77,7 +77,7 @@
 					</form>
 
 				<?php } ?>
-				<?php if($is_lulus == false){ ?>
+				<?php  if($is_lulus == false){ ?>
 				<?php $no=1; if ($courses['lesson_detail']['type'] == 'PG') { ?>
 					<div class="flash-data" data-flash = "<?= $this->session->flashdata('message') ?>"></div>
 					<form action="<?= site_url('lms/Forum/checkingpg') ?>" method="POST" enctype="multipart/form-data" id="forumpg">
@@ -121,15 +121,17 @@
 							<?php } ?>
 						</div>
 					<?php } ?>
-						<div class="form-group mt-3">
-							<button type="submit" name="kirimpg" id="kirimpg" class="btn btn-success">
-								<i class="fa fa-send"></i> Kirim
-							</button>
-						</div>
+						<?php if($is_lulus == false){ ?>
+							<div class="form-group mt-3">
+								<button type="submit" name="kirimpg" id="kirimpg" class="btn btn-success">
+									<i class="fa fa-send"></i> Kirim
+								</button>
+							</div>
+						<?php } ?>
 					</form>
 				<?php } ?>
 				<?php }else{ ?>
-					<h2>Anda sudah lulus</h2>
+					<h2>Anda sudah Lulus</h2>
 				<?php } ?>
 			</div>
 		</div>

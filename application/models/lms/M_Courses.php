@@ -218,6 +218,13 @@ class M_Courses extends CI_Model
         $this->db->where('status', 'Purchased');
     	return $this->db->get('tb_lms_user_payment')->row_array();
 	}
+
+	function get_level($id)
+	{	
+		$this->db->select('level');
+		$this->db->where('id', $id);
+    	return $this->db->get('tb_lms_courses')->row_array();
+	}
 	
 	function get_akses($id)
 	{	

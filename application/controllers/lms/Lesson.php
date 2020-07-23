@@ -41,10 +41,14 @@ class Lesson extends My_Lms{
 					if ($lesson_data['status'] == true) {
 						$is_lulus = true;
 					}else{
-						$is_lulus = false;
+						$is_lulus = '';
 					}
+				}else{
+					$is_lulus = '';
 				}
 			}
+		}else{
+			$is_lulus = '';
 		}
 
 		if($courses['status'] !=='Draft'){
@@ -58,6 +62,7 @@ class Lesson extends My_Lms{
 				'get_pertanyaan' => $this->M_Lesson->get_pertanyaan($section),
 				'get_jawaban' => $this->M_Lesson->get_jawaban(),
 				'is_lulus' => $is_lulus,
+				'get_jawaban_user' => $this->M_Lesson->get_jawaban_user(),
 			];
 			// echo "<pre>";
 			// 	var_dump($is_lulus);

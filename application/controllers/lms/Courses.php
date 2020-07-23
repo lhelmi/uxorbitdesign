@@ -19,8 +19,9 @@ class Courses extends My_Lms{
 		$template = $this->template;
 		$widget= $this->widget;
 		$courses = $this->M_Courses->data_course($site,$slug);
-		// $get_bough = $this->M_Courses->get_bough();
+		// $x = $this->M_Courses->get_level($courses['id']);
 		$data = [	
+		'get_level'	=> $this->M_Courses->get_level($courses['id']),
 		'get_bough'	=> $this->M_Courses->get_bough($courses['id']),
 		'get_akses'	=> $this->M_Courses->get_akses($courses['id']),
 		'site' => $site,

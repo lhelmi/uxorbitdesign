@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2020 at 09:35 PM
+-- Generation Time: Jul 23, 2020 at 02:46 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -67,7 +67,28 @@ CREATE TABLE `tb_jawaban` (
 
 INSERT INTO `tb_jawaban` (`id`, `id_pertanyaan`, `is_true`, `jawabana`, `jawabanb`, `jawabanc`, `jawaband`) VALUES
 (80, '23321', 'c', '3a', '3b', '3c', '3d'),
-(82, '23320', 'a', '5a', '5b', '5c', '5d');
+(83, '23320', 'a', '5a', '5b', '5c', '5d');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_jawaban_user`
+--
+
+CREATE TABLE `tb_jawaban_user` (
+  `id` int(11) NOT NULL,
+  `id_pertanyaan` varchar(255) NOT NULL,
+  `jawaban` varchar(255) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_jawaban_user`
+--
+
+INSERT INTO `tb_jawaban_user` (`id`, `id_pertanyaan`, `jawaban`, `id_user`) VALUES
+(1, '23321', 'd', 40),
+(2, '23320', 'a', 40);
 
 -- --------------------------------------------------------
 
@@ -233,17 +254,18 @@ CREATE TABLE `tb_lms_courses` (
   `discount` int(255) NOT NULL,
   `views` int(11) NOT NULL,
   `status` enum('Published','Draft') NOT NULL,
-  `is_new` enum('Terverifikasi','Belum Verifikasi') NOT NULL DEFAULT 'Belum Verifikasi'
+  `is_new` enum('Terverifikasi','Belum Verifikasi') NOT NULL DEFAULT 'Belum Verifikasi',
+  `level` enum('Beginner','Expert','Intermediate') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tb_lms_courses`
 --
 
-INSERT INTO `tb_lms_courses` (`id`, `id_user`, `title`, `permalink`, `image`, `description`, `faq`, `id_category`, `id_sub_category`, `time`, `updated`, `price`, `discount`, `views`, `status`, `is_new`) VALUES
-(21, 1, 'ini kelas baru', 'ini-kelas-baru-baru', 'images/ini-kelas-baru159483426028667.jpg', '&lt;p&gt;ini kelas baru&lt;/p&gt;\r\n', '', '1', '3', '2020-07-16 00:31:00', '2020-07-16 00:35:47', 98000, 0, 7, 'Published', ''),
-(22, 11, 'Kelas Membuat Desain Aplikasi Kursus Online', 'kelas-membuat-desain-aplikasi-kursus-online', 'images/1594913615Login.png', '&lt;p&gt;ini adalah deskripsi aplikasi kursus online&lt;/p&gt;\r\n', '&lt;h4&gt;&lt;strong&gt;Pertanyaan 1&lt;/strong&gt;&lt;/h4&gt;\r\n\r\n&lt;p&gt;Jawaban 1&lt;/p&gt;\r\n\r\n&lt;h4&gt;&lt;strong&gt;Pertanyaan 2&lt;/strong&gt;&lt;/h4&gt;\r\n\r\n&lt;p&gt;Jawaban 2&lt;/p&gt;\r\n', '1', '9', '2020-07-16 22:29:06', '2020-07-17 00:24:39', 220000, 0, 6, 'Published', 'Terverifikasi'),
-(23, 42, 'Kelas Online Figma UI Design', 'kelas-online-figma-ui-design', 'images/kelas-online-figma-ui-design1594972887banner.png', '&lt;p&gt;&lt;iframe __idm_id__=&quot;97303553&quot; allow=&quot;autoplay;&quot; allowfullscreen=&quot;&quot; frameborder=&quot;0&quot; height=&quot;360&quot; src=&quot;https://www.youtube.com/embed/wE-eGh8gWAk?rel=0&amp;amp;autoplay=1&amp;amp;controls=0&quot; width=&quot;100%&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Pada kelas ini, temen-temen akan belajar tentang dasar-dasar cara menggunakan Figma.&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Seperti yang kita ketahui, Figma adalah software untuk membuat desain mockup aplikasi atau website. Figma ini bisa temen-temen gunakan untuk membuat ilustrasi juga hasil karya grafik lainnya.&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Kelebihan dari software Figma ini adalah gratis. Kekurangannya mungkin figma ini tidak dijalankan ketika tidak ada jaringan internet.&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Tertarik untuk belajar, silahkan beli kelasnya dan pelajari secara mendalam. Kami tunggu dikelas yah.&amp;nbsp;&lt;/p&gt;\r\n', '', '4', '10', '2020-07-17 15:01:27', '2020-07-17 15:14:13', 60000, 0, 6, 'Published', 'Terverifikasi');
+INSERT INTO `tb_lms_courses` (`id`, `id_user`, `title`, `permalink`, `image`, `description`, `faq`, `id_category`, `id_sub_category`, `time`, `updated`, `price`, `discount`, `views`, `status`, `is_new`, `level`) VALUES
+(21, 1, 'ini kelas baru', 'ini-kelas-baru-baru', 'images/ini-kelas-baru159483426028667.jpg', '&lt;p&gt;ini kelas baru&lt;/p&gt;\r\n', '', '1', '3', '2020-07-16 00:31:00', '2020-07-16 00:35:47', 98000, 0, 7, 'Published', '', 'Beginner'),
+(22, 11, 'Kelas Membuat Desain Aplikasi Kursus Online', 'kelas-membuat-desain-aplikasi-kursus-online', 'images/1594913615Login.png', '&lt;p&gt;ini adalah deskripsi aplikasi kursus online&lt;/p&gt;\r\n', '&lt;h4&gt;&lt;strong&gt;Pertanyaan 1&lt;/strong&gt;&lt;/h4&gt;\r\n\r\n&lt;p&gt;Jawaban 1&lt;/p&gt;\r\n\r\n&lt;h4&gt;&lt;strong&gt;Pertanyaan 2&lt;/strong&gt;&lt;/h4&gt;\r\n\r\n&lt;p&gt;Jawaban 2&lt;/p&gt;\r\n', '1', '9', '2020-07-16 22:29:06', '2020-07-17 00:24:39', 220000, 0, 6, 'Published', 'Terverifikasi', 'Beginner'),
+(23, 42, 'Kelas Online Figma UI Design', 'kelas-online-figma-ui-design', 'images/kelas-online-figma-ui-design1594972887banner.png', '&lt;p&gt;&lt;iframe __idm_id__=&quot;97303553&quot; allow=&quot;autoplay;&quot; allowfullscreen=&quot;&quot; frameborder=&quot;0&quot; height=&quot;360&quot; src=&quot;https://www.youtube.com/embed/wE-eGh8gWAk?rel=0&amp;amp;autoplay=1&amp;amp;controls=0&quot; width=&quot;100%&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Pada kelas ini, temen-temen akan belajar tentang dasar-dasar cara menggunakan Figma.&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Seperti yang kita ketahui, Figma adalah software untuk membuat desain mockup aplikasi atau website. Figma ini bisa temen-temen gunakan untuk membuat ilustrasi juga hasil karya grafik lainnya.&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Kelebihan dari software Figma ini adalah gratis. Kekurangannya mungkin figma ini tidak dijalankan ketika tidak ada jaringan internet.&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Tertarik untuk belajar, silahkan beli kelasnya dan pelajari secara mendalam. Kami tunggu dikelas yah.&amp;nbsp;&lt;/p&gt;\r\n', '', '4', '10', '2020-07-17 15:01:27', '2020-07-17 15:14:13', 60000, 0, 7, 'Published', 'Terverifikasi', 'Beginner');
 
 -- --------------------------------------------------------
 
@@ -350,7 +372,7 @@ INSERT INTO `tb_lms_courses_lesson` (`id`, `id_courses`, `id_section`, `title`, 
 (52, 23, 31, 'Part 1', 'Video', '<p><iframe __idm_id__=\"65538049\" allow=\"autoplay;\" allowfullscreen=\"\" frameborder=\"0\" height=\"360\" src=\"https://www.youtube.com/embed/jaLhTcc1D5M?rel=0&amp;autoplay=1&amp;controls=0\" width=\"100%\"></iframe></p>\r\n', 0),
 (53, 23, 31, 'Part 2', 'Video', '<p><iframe __idm_id__=\"971950081\" allow=\"autoplay;\" allowfullscreen=\"\" frameborder=\"0\" height=\"360\" src=\"https://www.youtube.com/embed/ex6GsDnqysw?rel=0&amp;autoplay=1&amp;controls=0\" width=\"100%\"></iframe></p>\r\n', 0),
 (54, 23, 32, 'Challange 1', 'Quiz', '', 0),
-(101, 23, 32, 'Perkelahian', 'PG', '<p>xxxxxxxxxxxxxxxxxxxxx</p>\r\n', 0);
+(101, 23, 32, 'Perkelahianxxx12321312', 'PG', '<p>xxxxxxxxxxxxxxxxxxxxxzzzzzzzzzzzz213123123</p>\r\n', 0);
 
 -- --------------------------------------------------------
 
@@ -477,7 +499,7 @@ INSERT INTO `tb_lms_user_lesson` (`id`, `id_user`, `id_courses`, `data`) VALUES
 (19, 8, 4, '[{\"id_lesson\":\"28\",\"status\":true}]'),
 (20, 43, 23, '[{\"id_lesson\":\"48\",\"status\":true},{\"id_lesson\":\"53\",\"status\":false},{\"id_lesson\":\"47\",\"status\":true},{\"id_lesson\":\"49\",\"status\":true},{\"id_lesson\":\"50\",\"status\":true},{\"id_lesson\":\"51\",\"status\":true},{\"id_lesson\":\"52\",\"status\":false},{\"id_lesson\":\"54\",\"status\":false}]'),
 (21, 44, 23, '[{\"id_lesson\":\"48\",\"status\":true},{\"id_lesson\":\"49\",\"status\":true},{\"id_lesson\":\"50\",\"status\":true},{\"id_lesson\":\"51\",\"status\":true},{\"id_lesson\":\"52\",\"status\":true},{\"id_lesson\":\"53\",\"status\":true},{\"id_lesson\":\"47\",\"status\":true},{\"id_lesson\":\"54\",\"status\":true}]'),
-(22, 40, 23, '[{\"id_lesson\":\"101\",\"status\":true}]');
+(22, 40, 23, '[{\"id_lesson\":\"101\",\"status\":false}]');
 
 -- --------------------------------------------------------
 
@@ -576,7 +598,7 @@ CREATE TABLE `tb_pertanyaan` (
 
 INSERT INTO `tb_pertanyaan` (`id`, `idpertanyaan`, `pertanyaan`, `section_id`) VALUES
 (65, '23321', 'pertanyaan 4', 32),
-(67, '23320', 'pertanyaan 5', 32);
+(68, '23320', 'pertanyaan 5', 32);
 
 -- --------------------------------------------------------
 
@@ -878,7 +900,8 @@ INSERT INTO `tb_site_visitor` (`id`, `ip`, `date`, `browser`, `os`, `country_nam
 (201, '::1', '2020-07-18 02:02:01', 'Chrome', 'Windows 10', 'Other', 'Other', 1, 'http://localhost/uxorbitdesign/courses-detail/ini-kelas-baru-baru', ''),
 (202, '::1', '2020-07-22 15:33:13', 'Chrome', 'Windows 10', 'Other', 'Other', 2, 'http://localhost/uxorbitdesign/', ''),
 (203, '::1', '2020-07-22 22:08:47', 'Chrome', 'Windows 10', 'Other', 'Other', 1, 'http://localhost/uxorbitdesign/courses-detail/kelas-online-figma-ui-design', ''),
-(204, '::1', '2020-07-23 00:24:39', 'Chrome', 'Windows 10', 'Other', 'Other', 1, 'http://localhost/uxorbitdesign/', '');
+(204, '::1', '2020-07-23 00:24:39', 'Chrome', 'Windows 10', 'Other', 'Other', 2, 'http://localhost/uxorbitdesign/', ''),
+(205, '::1', '2020-07-23 19:23:51', 'Chrome', 'Windows 10', 'Other', 'Other', 18, 'http://localhost/uxorbitdesign/courses-detail/kelas-online-figma-ui-design', '');
 
 -- --------------------------------------------------------
 
@@ -943,10 +966,10 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `nama_lengkap`, `username`, `password`, `headline`, `email`, `no_handphone`, `photo`, `grade`, `payment`, `created`, `last_login`, `status`, `jk`, `institusi`, `pekerjaan`, `keahlian`, `portfolio`) VALUES
-(1, 'UX Orbit Design', 'UXOrbitDesign', '556eacad73fd8c5fb0988f60e904d150cbe37cce', 'Owner', 'admin@uxorbitdesign.com', '085793167490', 'user_photo_20200716110355.png', 'App', '{\"transaction\":[{\"identity\":\"bri20200425130634\",\"type\":\"bri\",\"account_number\":\"1923892138192\",\"receiver\":\"irfan\"},{\"identity\":\"bni20200629221926\",\"type\":\"bni\",\"account_number\":\"84091248\",\"receiver\":\"ashdasdjkasd\"}],\"confirmation\":[{\"identity\":\"whatsapp20200425130641\",\"type\":\"whatsapp\",\"data\":\"6285280815735\"},{\"identity\":\"facebook20200501131607\",\"type\":\"facebook\",\"data\":\"https:\\/\\/www.facebook.com\\/riedayme\"}]}', '0000-00-00 00:00:00', '2020-07-23 01:06:11', 'Active', '0', '', '0', '', ''),
+(1, 'UX Orbit Design', 'UXOrbitDesign', '556eacad73fd8c5fb0988f60e904d150cbe37cce', 'Owner', 'admin@uxorbitdesign.com', '085793167490', 'user_photo_20200716110355.png', 'App', '{\"transaction\":[{\"identity\":\"bri20200425130634\",\"type\":\"bri\",\"account_number\":\"1923892138192\",\"receiver\":\"irfan\"},{\"identity\":\"bni20200629221926\",\"type\":\"bni\",\"account_number\":\"84091248\",\"receiver\":\"ashdasdjkasd\"}],\"confirmation\":[{\"identity\":\"whatsapp20200425130641\",\"type\":\"whatsapp\",\"data\":\"6285280815735\"},{\"identity\":\"facebook20200501131607\",\"type\":\"facebook\",\"data\":\"https:\\/\\/www.facebook.com\\/riedayme\"}]}', '0000-00-00 00:00:00', '2020-07-23 19:36:35', 'Active', '0', '', '0', '', ''),
 (4, 'Dalih Rusmana', 'DalihRusmana', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'UI/UX Designer', 'dalih@gmail.com', '085793167490', 'user_photo_20200715220038.jpg', 'User', '{\"transaction\":[{\"identity\":\"bri20200425130634\",\"type\":\"bri\",\"account_number\":\"1923892138192\",\"receiver\":\"irfan\"},{\"identity\":\"bni20200629221926\",\"type\":\"bni\",\"account_number\":\"84091248\",\"receiver\":\"ashdasdjkasd\"}],\"confirmation\":[{\"identity\":\"whatsapp20200425130641\",\"type\":\"whatsapp\",\"data\":\"6285280815735\"},{\"identity\":\"facebook20200501131607\",\"type\":\"facebook\",\"data\":\"https:\\/\\/www.facebook.com\\/riedayme\"}]}', '2020-06-11 10:44:19', '2020-07-17 22:05:16', 'Active', '0', 'UNIKOM', '0', 'UX Designer', ''),
 (11, 'opang', 'opang', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Hokage', 'opang@gmail.com', '081947583459', 'user_photo_20200717144742.jpg', 'Instructor', '', '2020-07-15 11:42:09', '2020-07-17 00:23:49', 'Active', '0', '', '0', '', ''),
-(40, 'helmi h', 'helmi', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '', 'helmi@gmail.cum', '', '', 'User', '', '2020-07-16 21:55:14', '2020-07-22 22:09:51', 'Active', '0', '', '0', '', ''),
+(40, 'helmi h', 'helmi', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '', 'helmi@gmail.cum', '', '', 'User', '', '2020-07-16 21:55:14', '2020-07-23 19:23:38', 'Active', '0', '', '0', '', ''),
 (42, 'Dalih Rusmana', 'dalihrusmana', '377f87eb1fea38d8eff02ede0ed6cf9e778b76ba', 'Product Designer', 'dalihrusmana@gmail.com', '085793167490', 'user_photo_20200717145201.jpg', 'Instructor', '', '2020-07-17 14:52:01', '2020-07-17 22:06:26', 'Active', '0', '', '0', '', ''),
 (43, 'Ary Sugiarto', 'arysugiarto', '8cb2237d0679ca88db6464eac60da96345513964', '', 'arysugiarto10@gmail.com', '', '', 'User', '', '2020-07-17 15:21:35', '2020-07-17 21:50:22', 'Active', '0', '', '0', '', ''),
 (44, 'Farhan', 'farhan', '829a496eebff40fdac7b104c9ca9ef62ceb8e456', '', 'opangs82@gmail.com', '', 'user_photo_20200717220304.jpg', 'User', '', '2020-07-17 21:54:10', '2020-07-17 21:54:55', 'Active', '0', '', '0', '', '');
@@ -989,6 +1012,12 @@ ALTER TABLE `tb_bank_account`
 -- Indexes for table `tb_jawaban`
 --
 ALTER TABLE `tb_jawaban`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_jawaban_user`
+--
+ALTER TABLE `tb_jawaban_user`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1157,7 +1186,13 @@ ALTER TABLE `tb_bank_account`
 -- AUTO_INCREMENT for table `tb_jawaban`
 --
 ALTER TABLE `tb_jawaban`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+
+--
+-- AUTO_INCREMENT for table `tb_jawaban_user`
+--
+ALTER TABLE `tb_jawaban_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_jobs`
@@ -1187,7 +1222,7 @@ ALTER TABLE `tb_lms_coupon`
 -- AUTO_INCREMENT for table `tb_lms_courses`
 --
 ALTER TABLE `tb_lms_courses`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `tb_lms_courses_comment`
@@ -1247,7 +1282,7 @@ ALTER TABLE `tb_lms_user_review`
 -- AUTO_INCREMENT for table `tb_pertanyaan`
 --
 ALTER TABLE `tb_pertanyaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `tb_site_pages`
@@ -1259,7 +1294,7 @@ ALTER TABLE `tb_site_pages`
 -- AUTO_INCREMENT for table `tb_site_visitor`
 --
 ALTER TABLE `tb_site_visitor`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
 
 --
 -- AUTO_INCREMENT for table `tb_tarik`

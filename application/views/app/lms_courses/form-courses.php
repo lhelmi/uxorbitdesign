@@ -70,6 +70,15 @@
                             <label class="c-field__label">title : </label>
                             <input required class="c-input" name="title" type="text" placeholder="title" value="<?php echo (!empty($data['title']) ? $data['title'] : '') ?>" id="title">
                         </div>
+                        <div class="c-field u-ph-medium u-pt-small u-mb-medium">
+                            <label class="c-field__label">Level : </label>
+                            <select name="level" id="level" class="form-control" require>
+                                <option value="">Pilih Level Kursus</option>
+                                <option <?php echo (!empty($data['level']) and $data['level'] == 'Beginner') ? 'selected' : ''; ?> value="Beginner">Beginner</option>
+                                <option <?php echo (!empty($data['level']) and $data['level'] == 'Expert') ? 'selected' : ''; ?> value="Expert">Expert</option>
+                                <option <?php echo (!empty($data['level']) and $data['level'] == 'Intermediate') ? 'selected' : ''; ?> value="Intermediate">Intermediate</option>
+                            </select>
+                        </div>
                     </div>
                 </div> 
 
