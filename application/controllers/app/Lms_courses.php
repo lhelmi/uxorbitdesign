@@ -246,6 +246,7 @@ class Lms_courses extends My_App
         $data = array(
             'title' => 'Tambahkan Lesson',
             'ckeditor' => true,
+            'id_section' => $id_section,
             'data' => $this->M_LMS_Courses->required_lesson($id_section),
         );
 
@@ -290,6 +291,7 @@ class Lms_courses extends My_App
         // $get_pertanyaan = $this->M_LMS_Courses->get_pertanyaan($id_lesson);
         // $get_jawaban = $this->M_LMS_Courses->get_jawaban();
         $data = array(
+            'id_section' => $id_section,
             'get_pertanyaan' => $this->M_LMS_Courses->get_pertanyaan($id_lesson),
             'get_jawaban' => $this->M_LMS_Courses->get_jawaban(),
             'title' => 'Perbaharui Lesson',
@@ -323,29 +325,31 @@ class Lms_courses extends My_App
                 $postx = $this->input->post();
                 
                 if($this->input->post('type') == 'PG'){
-                    foreach($postx['pertanyaan'] AS $key => $val){
-                        $pertanyaan[] = array(
-                            "pertanyaan" => $postx['pertanyaan'][$key],
-                            "lesson_id" => $postx['id'],
-                            "idpertanyaan" => $postx['idpertanyaan'][$key]
-                        );
-    
-                        $jawaban[] = array(
-                            "jawabana" => $postx['jawabana'][$key],
-                            "jawabanb" => $postx['jawabanb'][$key],
-                            "jawabanc" => $postx['jawabanc'][$key],
-                            "jawaband" => $postx['jawaband'][$key],
-                            "is_true" => $postx['is_true'][$key],
-                            "id_pertanyaan" => $postx['idpertanyaan'][$key]
-                        );
-                    }
+                    if(!empty($postx['pertanyaan'])){
+                        foreach($postx['pertanyaan'] AS $key => $val){
+                            $pertanyaan[] = array(
+                                "pertanyaan" => $postx['pertanyaan'][$key],
+                                "lesson_id" => $postx['id'],
+                                "idpertanyaan" => $postx['idpertanyaan'][$key]
+                            );
+        
+                            $jawaban[] = array(
+                                "jawabana" => $postx['jawabana'][$key],
+                                "jawabanb" => $postx['jawabanb'][$key],
+                                "jawabanc" => $postx['jawabanc'][$key],
+                                "jawaband" => $postx['jawaband'][$key],
+                                "is_true" => $postx['is_true'][$key],
+                                "id_pertanyaan" => $postx['idpertanyaan'][$key]
+                            );
+                        }
                     
-                    // echo "<pre>";
-                    // var_dump($jawaban);
-                    // echo "</pre>";
+                        // echo "<pre>";
+                        // var_dump($jawaban);
+                        // echo "</pre>";
     
-                    $this->M_LMS_Courses->pertanyaan_insert($pertanyaan);
-                    $this->M_LMS_Courses->jawaban_insert($jawaban);    
+                        $this->M_LMS_Courses->pertanyaan_insert($pertanyaan);
+                        $this->M_LMS_Courses->jawaban_insert($jawaban);    
+                    }
                 }
                 $this->session->set_flashdata([
                     'message' => true,

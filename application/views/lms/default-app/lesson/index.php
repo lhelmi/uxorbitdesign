@@ -84,6 +84,7 @@
 					<input type="hidden" name="section" value="<?= $section ?>">
 					<input type="hidden" name="id_lesson" id="id_lesson" value="<?= $courses['lesson_detail']['id'] ?>">
 					<input type="hidden" name="id_courses" id="id_courses" value="<?= $courses['lesson_detail']['id_courses'] ?>">					
+					<input type="hidden" name="url" id="url" value="<?= $courses['url_lesson'].'/'. $section .'/'.$courses['lesson_detail']['id'] ?>">
 					<?php foreach ($get_pertanyaan as $key => $value) {?>
 						<div>
 							<label for=""><?= $no++. '. '; ?><?= $value['pertanyaan'] ?></label>

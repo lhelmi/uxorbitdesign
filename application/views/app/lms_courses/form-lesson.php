@@ -16,6 +16,7 @@
                         <input name="id" type="hidden" value="<?php echo $lesson['id'] ?>">
                     <?php endif ?>
                     <input type="hidden" name="id_courses" value="<?php echo $data['courses_id']; ?>">
+                    <input type="hidden" name="id_section" value="<?php echo $id_section; ?>">
                     
                     <button type="submit" class="btn btn-primary-orbit">
                         <i class="fa fa-save"></i> Simpan
@@ -76,7 +77,7 @@
                                             <hr>
                                         </div>
                                         <div class='col-10'>
-                                            <input autofocus='' required class='form-control mb-3' id="<?= 'ubahpertanyaan'.$kk ?>" name='pertanyaan[]' type='text' value="<?= $value['pertanyaan'] ?>">
+                                            <input autofocus='' required class='form-control mb-3' id="<?= 'ubahpertanyaan'.$kk ?>" name='ubahpertanyaan[]' type='text' value="<?= $value['pertanyaan'] ?>">
                                         </div>
                                         
                                         <div class='col-10'>
@@ -137,7 +138,7 @@ $(document).ready(function() {
     if(x == 'PG' ){
         $('#isicontent').hide();
         $('.jumlahinput').remove();
-        $('#jumlah').append("<div class='c-field u-ph-medium u-pv-small u-mb-small jumlahinput'><div class='row mb-3'><div class='col-10'><input autofocus='' required class='form-control mb-3' id='quiz1' name='quiz1' type='number'></div><div class='col-2'><button type='button' id='jumlahquiz' class='btn btn-primary'><i class='fa fa-check'></i> Ok</button></div></div></div>");
+        $('#jumlah').append("<div class='c-field u-ph-medium u-pv-small u-mb-small jumlahinput'><div class='row mb-3'><div class='col-10'><input autofocus='' class='form-control mb-3' id='quiz1' name='quiz1' type='number'></div><div class='col-2'><button type='button' id='jumlahquiz' class='btn btn-primary'><i class='fa fa-check'></i> Ok</button></div></div></div>");
         $('#jumlahquiz').on('click', function(event){
                 var jumlahquiz = $('#quiz1').val();
                 

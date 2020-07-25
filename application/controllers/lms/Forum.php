@@ -70,6 +70,7 @@ class Forum extends My_User{
 		$postx = $this->input->post();
 		$data = array();
 		$wow = array();
+		$url = $postx['url'];
 		foreach ($postx['kk'] as $key => $value) {
 			$jawaban =  $this->input->post('jawaban'.$key);
 			$data = [
@@ -133,10 +134,10 @@ class Forum extends My_User{
 		$result = $hasil / $count * 100;
 		if($result > 60){
 			$this->M_Courses->process_pg();
-			redirect('courses-lesson/kelas-online-figma-ui-design/'.$section.'/'.$id_lesson);
+			redirect($url);
 		}else{
 			$this->session->set_flashdata('message', 'Anda Belum Lulus');
-			redirect('courses-lesson/kelas-online-figma-ui-design/'.$section.'/'.$id_lesson);
+			redirect($url);
 		}
 		// echo "<pre>";
 		// var_dump($result);

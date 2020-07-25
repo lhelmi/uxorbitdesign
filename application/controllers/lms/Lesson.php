@@ -65,8 +65,9 @@ class Lesson extends My_Lms{
 				'get_jawaban_user' => $this->M_Lesson->get_jawaban_user(),
 			];
 			// echo "<pre>";
-			// 	var_dump($is_lulus);
+			// 	var_dump($courses['all_data'][0]['lesson'][0]['url']);
 			// echo "</pre>";
+
 			$this->load->view('lms/'.$template['name'].'/lesson/index', $data);
 		}else{
 			$this->session->set_flashdata('Tutup', 'Maaf kelas yang anda akses sudah ditutup');
