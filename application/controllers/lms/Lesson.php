@@ -59,7 +59,7 @@ class Lesson extends My_Lms{
 				'courses' => $courses,
 				'section' => $section,
 				'get_submisi' => $this->M_Lesson->get_submisi($lesson),
-				'get_pertanyaan' => $this->M_Lesson->get_pertanyaan($section),
+				'get_pertanyaan' => $this->M_Lesson->get_pertanyaan($lesson),
 				'get_jawaban' => $this->M_Lesson->get_jawaban(),
 				'is_lulus' => $is_lulus,
 				'get_jawaban_user' => $this->M_Lesson->get_jawaban_user(),

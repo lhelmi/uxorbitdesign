@@ -287,15 +287,28 @@ class Lms_courses extends My_App
     public function update_lesson($id_section, $id_lesson)
     {
 
+        // $get_pertanyaan = $this->M_LMS_Courses->get_pertanyaan($id_lesson);
+        // $get_jawaban = $this->M_LMS_Courses->get_jawaban();
         $data = array(
-            'get_pertanyaan' => $this->M_LMS_Courses->get_pertanyaan($id_section),
+            'get_pertanyaan' => $this->M_LMS_Courses->get_pertanyaan($id_lesson),
             'get_jawaban' => $this->M_LMS_Courses->get_jawaban(),
             'title' => 'Perbaharui Lesson',
             'ckeditor' => true,
             'data' => $this->M_LMS_Courses->required_lesson($id_section),
             'lesson' => $this->M_LMS_Courses->data_lesson_update($id_section, $id_lesson),
         );
+        // foreach ($get_pertanyaan as $key => $value) {
+        //     foreach ($get_jawaban as $kk => $vv) {
+        //         if($value['idpertanyaan'] == $vv['id_pertanyaan']){
+        //             echo $value['idpertanyaan'];
+        //             echo '<br>';
+        //         }
+        //     }
+        // }
 
+        // echo "<pre>";
+        //     var_dump($get_pertanyaan);
+        // echo "<pre>";
         $this->load->view($this->form_lesson, $data);
     }
 
@@ -313,7 +326,7 @@ class Lms_courses extends My_App
                     foreach($postx['pertanyaan'] AS $key => $val){
                         $pertanyaan[] = array(
                             "pertanyaan" => $postx['pertanyaan'][$key],
-                            "section_id" => $postx['id_section'],
+                            "lesson_id" => $postx['id'],
                             "idpertanyaan" => $postx['idpertanyaan'][$key]
                         );
     
@@ -342,35 +355,39 @@ class Lms_courses extends My_App
             }
         } else {
 
-            if ($this->M_LMS_Courses->process_lesson_create() == TRUE) {
+            if ($xxo = $this->M_LMS_Courses->process_lesson_create()) {
+                
                 $pertanyaan = array();
                 $jawaban = array();
                 $postx = $this->input->post();
                 
-                
-                foreach($postx['pertanyaan'] AS $key => $val){
-                    $pertanyaan[] = array(
-                        "pertanyaan" => $postx['pertanyaan'][$key],
-                        "section_id" => $postx['id_section'],
-                        "idpertanyaan" => $postx['idpertanyaan'][$key]
-                    );
-
-                    $jawaban[] = array(
-                        "jawabana" => $postx['jawabana'][$key],
-                        "jawabanb" => $postx['jawabanb'][$key],
-                        "jawabanc" => $postx['jawabanc'][$key],
-                        "jawaband" => $postx['jawaband'][$key],
-                        "is_true" => $postx['is_true'][$key],
-                        "id_pertanyaan" => $postx['idpertanyaan'][$key]
-                    );
+                if(!empty($postx['pertanyaan'])){
+                    foreach($postx['pertanyaan'] AS $key => $val){
+                        $pertanyaan[] = array(
+                            "pertanyaan" => $postx['pertanyaan'][$key],
+                            "lesson_id" => $xxo,
+                            "idpertanyaan" => $postx['idpertanyaan'][$key]
+                        );
+    
+                        $jawaban[] = array(
+                            "jawabana" => $postx['jawabana'][$key],
+                            "jawabanb" => $postx['jawabanb'][$key],
+                            "jawabanc" => $postx['jawabanc'][$key],
+                            "jawaband" => $postx['jawaband'][$key],
+                            "is_true" => $postx['is_true'][$key],
+                            "id_pertanyaan" => $postx['idpertanyaan'][$key]
+                        );
+                    }
+                    $this->M_LMS_Courses->pertanyaan_insert($pertanyaan);
+                    $this->M_LMS_Courses->jawaban_insert($jawaban);
                 }
                 
+                
                 // echo "<pre>";
-                // var_dump($jawaban);
+                // var_dump($pertanyaan);
                 // echo "</pre>";
 
-                $this->M_LMS_Courses->pertanyaan_insert($pertanyaan);
-                $this->M_LMS_Courses->jawaban_insert($jawaban);
+                
                 $this->session->set_flashdata([
                     'message' => true,
                     'message_type' => 'alert-success',

@@ -91,28 +91,28 @@
 								<?php if($value['idpertanyaan'] == $vv['id_pertanyaan']){ ?>
 									<input type="hidden" value="<?= $vv['id_pertanyaan'] ?>" name="kk[]">
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="a">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$key ?>" id="<?= $vv['id_pertanyaan'] ?>" value="a">
 										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
 										a. <?= $vv['jawabana'] ?>
 										</label>
 									</div>
 
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="b">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$key ?>" id="<?= $vv['id_pertanyaan'] ?>" value="b">
 										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
 										b. <?= $vv['jawabanb'] ?>
 										</label>
 									</div>
 
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="c">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$key ?>" id="<?= $vv['id_pertanyaan'] ?>" value="c">
 										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
 										c. <?= $vv['jawabanc'] ?>
 										</label>
 									</div>
 
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="<?= "jawaban".$kk ?>" id="<?= $vv['id_pertanyaan'] ?>" value="d">
+										<input class="form-check-input" type="radio" name="<?= "jawaban".$key ?>" id="<?= $vv['id_pertanyaan'] ?>" value="d">
 										<label class="form-check-label" for="<?= $vv['id_pertanyaan'] ?>">
 										d. <?= $vv['jawaband'] ?>
 										</label>

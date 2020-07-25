@@ -65,7 +65,7 @@ class Forum extends My_User{
 	{
 		$id_lesson = $this->input->post('id_lesson');
 		$section = $this->input->post('section');
-		$get_pertanyaan = $this->M_Lesson->get_pertanyaan($this->input->post('section'));
+		$get_pertanyaan = $this->M_Lesson->get_pertanyaan($this->input->post('id_lesson'));
 		$get_jawaban = $this->M_Lesson->get_jawaban();
 		$postx = $this->input->post();
 		$data = array();
@@ -88,38 +88,40 @@ class Forum extends My_User{
 		}
 		if(!empty($check)){
 			$hasilcheck = $this->M_Lesson->get_jawaban_user_by_id($check);
-			$checktoarray = array();
-			$ubahjawaban = array();
-			foreach($check AS $key => $val){
-				$checktoarray[] = array(
-					"id_pertanyaan" => $val,
-				);
-			}
-			foreach ($wow as $kk => $vv) {
-				foreach ($checktoarray as $kkk => $vvv) {
-					if($vv['id_pertanyaan'] == $vvv['id_pertanyaan'])	{
-						$ubahjawaban[] = array(
-							"id_pertanyaan" => $vvv['id_pertanyaan'],
-							'jawaban' => $vv['jawaban']
-						);
-					}
+			if(!empty($hasilcheck)){
+				$checktoarray = array();
+				$ubahjawaban = array();
+				foreach($check AS $key => $val){
+					$checktoarray[] = array(
+						"id_pertanyaan" => $val,
+					);
 				}
-				
+				foreach ($wow as $kk => $vv) {
+					foreach ($checktoarray as $kkk => $vvv) {
+						if($vv['id_pertanyaan'] == $vvv['id_pertanyaan'])	{
+							$ubahjawaban[] = array(
+								"id_pertanyaan" => $vvv['id_pertanyaan'],
+								'jawaban' => $vv['jawaban']
+							);
+						}
+					}
+					
+				}
+				$this->M_Lesson->update_jawaban_user($ubahjawaban);
+			}else{
+				$this->M_Lesson->insert_jawaban_user($wow);	
 			}
-			$this->M_Lesson->update_jawaban_user($ubahjawaban);
-        }else{
-			$this->M_Lesson->insert_jawaban_user($wow);	
-		}
+			
+        }
 
-		$benar = 1;		
+		$benar = 1;
+		$hasil = null;
 		foreach ($get_pertanyaan as $key => $value) {
 			foreach ($get_jawaban as $kk => $vv) {
 				if($value['idpertanyaan'] == $vv['id_pertanyaan']){
 					foreach ($wow as $kkk => $vvv) {
-						if($vvv['id_pertanyaan'] == $value['idpertanyaan'] && $vvv['jawaban'] == $vv['is_true']){
+						if($xxo = $vvv['id_pertanyaan'] == $value['idpertanyaan'] && $vvv['jawaban'] == $vv['is_true']){
 							$hasil =  $benar++;
-						}else{
-							$hasil = 0;
 						}
 					}
 					
@@ -128,15 +130,16 @@ class Forum extends My_User{
 		}
 		// $this->M_Lesson->insert_jawaban_user($wow);
 		$count = count($get_pertanyaan);
-		$result = $hasil / $count *100;
-		if($result > 80){
+		$result = $hasil / $count * 100;
+		if($result > 60){
 			$this->M_Courses->process_pg();
+			redirect('courses-lesson/kelas-online-figma-ui-design/'.$section.'/'.$id_lesson);
 		}else{
 			$this->session->set_flashdata('message', 'Anda Belum Lulus');
 			redirect('courses-lesson/kelas-online-figma-ui-design/'.$section.'/'.$id_lesson);
 		}
 		// echo "<pre>";
-		// var_dump($ubahjawaban);
+		// var_dump($result);
 		// echo "</pre>";
 		
 	}

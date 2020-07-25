@@ -165,7 +165,7 @@ class M_LMS_Courses extends CI_Model
     
     public function get_pertanyaan($id)
 	{	
-		$this->db->where('tb_pertanyaan.section_id',$id);
+		$this->db->where('tb_pertanyaan.lesson_id',$id);
 		return $this->db->get('tb_pertanyaan')->result_array();
 	}
 
@@ -606,7 +606,12 @@ class M_LMS_Courses extends CI_Model
 
     public function process_lesson_create()
     {
-        return $this->_Process_MYSQL->insert_data($this->table_lms_courses_lesson, $this->data_lesson_post(), true);
+
+        // return $this->_Process_MYSQL->insert_data($this->table_lms_courses_lesson, $this->data_lesson_post(), true);
+        $this->db->insert($this->table_lms_courses_lesson, $this->data_lesson_post());
+        $insert_id = $this->db->insert_id();
+
+        return  $insert_id;
     }
 
     public function process_quiz_create()

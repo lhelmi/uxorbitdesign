@@ -20,7 +20,7 @@ class M_Lesson extends CI_Model
 
 	public function get_pertanyaan($id)
 	{	
-		$this->db->where('tb_pertanyaan.section_id',$id);
+		$this->db->where('tb_pertanyaan.lesson_id',$id);
 		return $this->db->get('tb_pertanyaan')->result_array();
 	}
 
